@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.example.hw3.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

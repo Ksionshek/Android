@@ -24,8 +24,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.example.hw3.tasks.TaskListContent;
 
-import java.util.Objects;
-
 
 public class TaskUpdateFragment extends Fragment {
     private static final String TAG = "TaskUpdateFragment";
@@ -53,18 +51,17 @@ public class TaskUpdateFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_task_update, container, false);
     }
-    public void setCarParameters(TaskListContent.Task car) {
+    public void inputEditTextFromDB(TaskListContent.Task task) {
 
-        //display info
-        stringID = car.id;
-        addMarka.setText(String.format("%s", car.marka));
-        addModel.setText(String.format("%s", car.model));
-        addSilnik.setText(String.format("%s", car.silnik));
-        addCena.setText(String.format("%s", car.cena));
+        stringID = task.id;
+        addMarka.setText(String.format("%s", task.marka));
+        addModel.setText(String.format("%s", task.model));
+        addSilnik.setText(String.format("%s", task.silnik));
+        addCena.setText(String.format("%s", task.cena));
 
     }
 
-    public void updateCarParameters() {
+    public void updateCarDetails() {
 
         stringMarka = addMarka.getText().toString();
         stringModel = addModel.getText().toString();
@@ -73,7 +70,7 @@ public class TaskUpdateFragment extends Fragment {
 
         if (!stringMarka.isEmpty() && !stringModel.isEmpty() && !stringSilnik.isEmpty() && !stringCena.isEmpty()) {
 
-            Toast toastAddedContact = Toast.makeText(getActivity(), "All fields fill successfully!", Toast.LENGTH_SHORT);
+            Toast toastAddedContact = Toast.makeText(getActivity(), "Car info updated!", Toast.LENGTH_SHORT);
             toastAddedContact.setGravity(Gravity.CENTER_VERTICAL, 0, +200);
             toastAddedContact.show();
 
@@ -85,7 +82,6 @@ public class TaskUpdateFragment extends Fragment {
                             "model", stringModel,
                             "silnik", stringSilnik,
                             "cena", stringCena
-
                     )
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -108,7 +104,6 @@ public class TaskUpdateFragment extends Fragment {
             }
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
-            //Move to activity_main/MainActivity and refresh contact list
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
 
@@ -118,7 +113,7 @@ public class TaskUpdateFragment extends Fragment {
             addCena.setText("");
 
         } else {
-            Toast toastFillAllFields = Toast.makeText(getActivity(), "Fill all fields correctly to add contact!", Toast.LENGTH_LONG);
+            Toast toastFillAllFields = Toast.makeText(getActivity(), "Fill all fields!", Toast.LENGTH_LONG);
             toastFillAllFields.setGravity(Gravity.CENTER_VERTICAL, 0, +200);
             toastFillAllFields.show();
         }
@@ -140,7 +135,7 @@ public class TaskUpdateFragment extends Fragment {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateCarParameters();
+                updateCarDetails();
             }
         });
 
@@ -148,7 +143,7 @@ public class TaskUpdateFragment extends Fragment {
         if (intent != null) {
             TaskListContent.Task receivedTask = intent.getParcelableExtra(MainActivity.taskExtra);
             if (receivedTask != null) {
-                setCarParameters(receivedTask);
+                inputEditTextFromDB(receivedTask);
             }
         }
     }

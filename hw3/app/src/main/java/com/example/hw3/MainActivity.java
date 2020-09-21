@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.hw3.tasks.TaskListContent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -19,13 +19,11 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.example.hw3.tasks.TaskListContent;
 
 public class MainActivity extends AppCompatActivity
         implements
         TaskFragment.OnListFragmentInteractionListener,
-        DeleteDialog.OnDeleteDialogInteractionListener
-         {
+        DeleteDialog.OnDeleteDialogInteractionListener {
 
     public static final String taskExtra = "taskExtra";
     private static final String TAG = "MainActivity";
@@ -42,7 +40,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                startAddCarActivity();
+                addingListActivity();
             }
         });
         mFirestore = FirebaseFirestore.getInstance();
@@ -52,10 +50,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        getFirestoreContent();
+        getCarsFromDB();
     }
 
-    private void getFirestoreContent() {
+    private void getCarsFromDB() {
         TaskListContent.ITEM_MAP.clear();
         TaskListContent.ITEMS.clear();
         mFirestore.collection("bdAuta")
@@ -81,7 +79,7 @@ public class MainActivity extends AppCompatActivity
 
                                 ));
                             }
-                            ((TaskFragment) getSupportFragmentManager().findFragmentById(R.id.list)).notifyDataChange();
+                            ((TaskFragment) getSupportFragmentManager().findFragmentById(R.id.taskFragment)).notifyDataChange();
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
@@ -90,19 +88,19 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void startCarDetailsActivity(TaskListContent.Task car) {
+    private void moreCarInfoActivity(TaskListContent.Task car) {
         Intent intent = new Intent(this, TaskInfoActivity.class);
         intent.putExtra(taskExtra, car);
         startActivity(intent);
     }
 
-    private void startCarUpdateActivity(TaskListContent.Task car) {
+    private void updateCarActivity(TaskListContent.Task car) {
         Intent intent = new Intent(this, TaskUpdateActivity.class);
         intent.putExtra(taskExtra, car);
         startActivity(intent);
     }
 
-    private void startAddCarActivity() {
+    private void addingListActivity() {
         Intent intent = new Intent(this, addingList.class);
         startActivity(intent);
     }
@@ -113,42 +111,42 @@ public class MainActivity extends AppCompatActivity
             taskInfoFragment.displayTask(car);
         }
     }
+
     @Override
     public void onListFragmentClickInteraction(TaskListContent.Task task) {
-        Toast.makeText(this,getString(R.string.item_selected_msg),Toast.LENGTH_SHORT).show();
-        if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE){
+        Toast.makeText(this, getString(R.string.item_selected_msg), Toast.LENGTH_SHORT).show();
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             displayTaskInFragment(task);
-        }else{
-            startCarDetailsActivity(task);
+        } else {
+            moreCarInfoActivity(task);
         }
 
     }
 
     @Override
-    public void onListFragmentLongClickInteraction(TaskListContent.Task car,int position) {
-        //Toast.makeText(this,getString(R.string.long_click_msg)+position, Toast.LENGTH_SHORT).show();
+    public void onListFragmentLongClickInteraction(TaskListContent.Task car, int position) {
 
         currentItemPosition = position;
-        startCarUpdateActivity(car);
+        updateCarActivity(car);
     }
 
     @Override
     public void onListFragmentClickBinInteraction(int position) {
-        //Toast.makeText(this,getString(R.string.long_click_msg)+position, Toast.LENGTH_SHORT).show();
+
         showDeleteDialog();
         currentItemPosition = position;
     }
 
 
-    private void showDeleteDialog(){
-        DeleteDialog.newInstance().show(getSupportFragmentManager(),getString(R.string.delete_dialog_tag));
+    private void showDeleteDialog() {
+        DeleteDialog.newInstance().show(getSupportFragmentManager(), getString(R.string.delete_dialog_tag));
     }
 
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
 
-        if(currentItemPosition != -1 && currentItemPosition < TaskListContent.ITEMS.size()){
+        if (currentItemPosition != -1 && currentItemPosition < TaskListContent.ITEMS.size()) {
             TaskListContent.removeItem(currentItemPosition);
             ((TaskFragment) getSupportFragmentManager().findFragmentById(R.id.taskFragment)).notifyDataChange();
 
@@ -157,17 +155,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-    View v = findViewById(R.id.addButton);
-    if(v != null){
-        Snackbar.make(v,getString(R.string.delete_cancel_msg),Snackbar.LENGTH_LONG).setAction(getString(R.string.retry_msg), new View.OnClickListener(){
-                    @Override
-            public void onClick(View v){
-                        showDeleteDialog();
+        View v = findViewById(R.id.addButton);
+        if (v != null) {
+            Snackbar.make(v, getString(R.string.delete_cancel_msg), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry_msg), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDeleteDialog();
+                        }
                     }
-                }
-                ).show();
+            ).show();
+        }
     }
-    }
-
-
 }

@@ -1,7 +1,5 @@
 package com.example.hw3;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,61 +41,6 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
         Task task = mValues.get(position);
         holder.mItem = task;
         holder.mContentView.setText(task.marka + " " + task.model);
-        final int picPath = Integer.parseInt(task.id);
-        final int modu = picPath % 15;
-        Context context = holder.mView.getContext();
-        Drawable taskDrawable;
-        switch (modu) {
-            case 1:
-                taskDrawable = context.getResources().getDrawable(R.drawable.avatar_1);
-                break;
-            case 2:
-                taskDrawable = context.getResources().getDrawable(R.drawable.avatar_2);
-                break;
-
-            case 3:
-                taskDrawable = context.getResources().getDrawable(R.drawable.avatar_3);
-                break;
-            case 4:
-                taskDrawable = context.getResources().getDrawable(R.drawable.avatar_4);
-                break;
-            case 5:
-                taskDrawable = context.getResources().getDrawable(R.drawable.avatar_5);
-                break;
-            case 6:
-                taskDrawable = context.getResources().getDrawable(R.drawable.avatar_6);
-                break;
-            case 7:
-                taskDrawable = context.getResources().getDrawable(R.drawable.avatar_7);
-                break;
-            case 8:
-                taskDrawable = context.getResources().getDrawable(R.drawable.avatar_8);
-                break;
-            case 9:
-                taskDrawable = context.getResources().getDrawable(R.drawable.avatar_9);
-                break;
-            case 10:
-                taskDrawable = context.getResources().getDrawable(R.drawable.avatar_10);
-                break;
-            case 11:
-                taskDrawable = context.getResources().getDrawable(R.drawable.avatar_11);
-                break;
-            case 12:
-                taskDrawable = context.getResources().getDrawable(R.drawable.avatar_12);
-                break;
-            case 13:
-                taskDrawable = context.getResources().getDrawable(R.drawable.avatar_13);
-                break;
-            case 14:
-                taskDrawable = context.getResources().getDrawable(R.drawable.avatar_14);
-                break;
-            case 15:
-                taskDrawable = context.getResources().getDrawable(R.drawable.avatar_15);
-                break;
-            default:
-                taskDrawable = context.getResources().getDrawable(R.drawable.avatar_16);
-        }
-        holder.mItemImageView.setImageDrawable(taskDrawable);
 
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +76,6 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mContentView;
-        public final ImageView mItemImageView;
         public Task mItem;
         public final ImageView mItemBin;
 
@@ -141,7 +83,6 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mItemImageView = view.findViewById(R.id.item_image);
             mContentView = view.findViewById(R.id.content);
             mItemBin = view.findViewById(R.id.remBtn);
 

@@ -21,7 +21,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class addingList extends AppCompatActivity {
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +40,12 @@ public class addingList extends AppCompatActivity {
         String stringModel = addModel.getText().toString();
         String stringCena = addCena.getText().toString();
 
-        if(stringMarka.isEmpty() && stringSilnik.isEmpty() && stringModel.isEmpty() && stringCena.isEmpty()){
+        if (stringMarka.isEmpty() && stringSilnik.isEmpty() && stringModel.isEmpty() && stringCena.isEmpty()) {
             Toast.makeText(getApplicationContext(), "wypelnij wszystkie pola", Toast.LENGTH_SHORT).show();
-        }else{
-            if(stringCena.length()<150) {
+        } else {
+            if (stringCena.length() < 150) {
 
-                TaskListContent.Task data =  new TaskListContent.Task("",
+                TaskListContent.Task data = new TaskListContent.Task("",
                         stringMarka,
                         stringModel,
                         stringSilnik,
@@ -66,14 +65,13 @@ public class addingList extends AppCompatActivity {
                                 Log.w("TAG", "Error adding document", e);
                             }
                         });
-            }
-            else {
+            } else {
                 Toast.makeText(getApplicationContext(), "nie ma auta o takiej cenie", Toast.LENGTH_SHORT).show();
                 addCena.setText("");
             }
         }
-        //((TaskFragment) getSupportFragmentManager().findFragmentById(R.id.taskFragment)).notifyDataChange();
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
         Intent intent = new Intent(addingList.this, MainActivity.class);
@@ -83,10 +81,5 @@ public class addingList extends AppCompatActivity {
         addModel.setText("");
         addSilnik.setText("");
         addCena.setText("");
-
-
-
-
-
     }
 }

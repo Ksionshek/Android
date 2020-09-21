@@ -1,12 +1,10 @@
 package com.example.hw3;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,65 +47,10 @@ public class TaskInfoFragment extends Fragment {
         TextView showMarka = activity.findViewById(R.id.showMarka_Model);
         TextView showCena = activity.findViewById(R.id.showCena);
         TextView showSilnikk = activity.findViewById(R.id.showSilnik);
-        ImageView taskInfoImage = activity.findViewById(R.id.taskInfoImage);
+
 
         showMarka.setText(task.marka +" "+task.model);
-        showCena.setText(task.cena);
-        showSilnikk.setText(task.silnik);
-        final int picPath = Integer.parseInt(task.id);
-        final int modu = picPath % 15;
-                Drawable taskDrawable;
-                switch (modu){
-                    case 1:
-                        taskDrawable = activity.getResources().getDrawable(R.drawable.avatar_1);
-                        break;
-                    case 2:
-                        taskDrawable = activity.getResources().getDrawable(R.drawable.avatar_2);
-                        break;
-                    case 3:
-                        taskDrawable = activity.getResources().getDrawable(R.drawable.avatar_3);
-                        break;
-                    case 4:
-                        taskDrawable = activity.getResources().getDrawable(R.drawable.avatar_4);
-                        break;
-                    case 5:
-                        taskDrawable = activity.getResources().getDrawable(R.drawable.avatar_5);
-                        break;
-                    case 6:
-                        taskDrawable = activity.getResources().getDrawable(R.drawable.avatar_6);
-                        break;
-                    case 7:
-                        taskDrawable = activity.getResources().getDrawable(R.drawable.avatar_7);
-                        break;
-                    case 8:
-                        taskDrawable = activity.getResources().getDrawable(R.drawable.avatar_8);
-                        break;
-                    case 9:
-                        taskDrawable = activity.getResources().getDrawable(R.drawable.avatar_9);
-                        break;
-                    case 10:
-                        taskDrawable = activity.getResources().getDrawable(R.drawable.avatar_10);
-                        break;
-                    case 11:
-                        taskDrawable = activity.getResources().getDrawable(R.drawable.avatar_11);
-                        break;
-                    case 12:
-                        taskDrawable = activity.getResources().getDrawable(R.drawable.avatar_12);
-                        break;
-                    case 13:
-                        taskDrawable = activity.getResources().getDrawable(R.drawable.avatar_13);
-                        break;
-                    case 14:
-                        taskDrawable = activity.getResources().getDrawable(R.drawable.avatar_14);
-                        break;
-                    case 15:
-                        taskDrawable = activity.getResources().getDrawable(R.drawable.avatar_15);
-                        break;
-                    default:
-                        taskDrawable = activity.getResources().getDrawable(R.drawable.avatar_16);
-
-                }
-                taskInfoImage.setImageDrawable(taskDrawable);
-
+        showCena.setText("CENA: " + task.cena);
+        showSilnikk.setText("SILNIK: " + task.silnik);
     }
 }
